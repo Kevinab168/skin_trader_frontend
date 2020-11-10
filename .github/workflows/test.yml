@@ -1,0 +1,21 @@
+
+name: CI
+
+on: push
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependancies
+        uses: actions/setup-node@v1
+        run: npm install
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
