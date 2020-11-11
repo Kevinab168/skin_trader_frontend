@@ -13,3 +13,12 @@ describe('Registration Page', () => {
   })
 
 })
+
+describe('Login Page', () => {
+  it('Visits the login  page', () => {
+    cy.visit('/accounts/login')
+    cy.get('[data-test="username"]').should('exist')
+    cy.get('[data-test="password"]').should('exist')
+    cy.get('[data-test="loginBtn"]').should('exist')
+  })
+})
