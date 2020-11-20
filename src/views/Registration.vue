@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>Register</h1>
         <v-container>
           <v-row
           align="center"

@@ -1,15 +1,6 @@
 <template>
   <div>
-      <h1>Login</h1>
-      <v-container>
-        <v-row
-        align-content="center"
-        justify="center"
-        ><v-col>
-          <LoginForm></LoginForm>
-        </v-col>        
-        </v-row>
-      </v-container>
+      <LoginForm></LoginForm>
   </div>
 </template>
 

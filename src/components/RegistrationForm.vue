@@ -1,119 +1,110 @@
 <template>
-    <ValidationObserver v-slot="{ handleSubmit }">
-        <v-form
-        @submit.prevent="handleSubmit(registerUser)"
+    <v-container
+    fluid
+    fill-height
+    >
+        <v-row
         >
-            <v-container
-            fluid
-            >
-            <v-row
-            >
-                <v-col
-                >
-                <ValidationProvider rules="required" v-slot="{ errors }">
-                <v-text-field
-                v-model="username"
-                data-test="username"
-                flat
-                label="User Name"
-                filled
-                dense
-                clearable
-                ></v-text-field>
-                <p class="red--text" align="left">{{ errors[0] }}</p>
-                </ValidationProvider>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                        <v-text-field
-                        v-model="password"
-                        data-test="password"
-                        flat
-                        label="Password"
-                        type="password"
-                        filled
-                        dense
-                        clearable
-                        ></v-text-field>
-                        <p class="red--text" align="left">{{ errors[0] }}</p>
-                    </ValidationProvider>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                        <v-text-field
-                        v-model="email"
-                        data-test="email"
-                        flat
-                        label="Email"
-                        filled
-                        dense
-                        clearable
-                        ></v-text-field>
-                        <p class="red--text" align="left">{{ errors[0] }}</p>
-                    </ValidationProvider>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                        <v-text-field
-                        v-model="firstName"
-                        data-test="first-name"
-                        flat
-                        label="First Name"
-                        filled
-                        dense
-                        clearable
-                        ></v-text-field>
-                        <p class="red--text" align="left">{{ errors[0] }}</p>
-                    </ValidationProvider>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                        <v-text-field
-                        v-model="lastName"
-                        data-test="last-name"
-                        flat
-                        label="Last Name"
-                        filled
-                        dense
-                        clearable
-                        ></v-text-field>
-                        <p class="red--text" align="left">{{ errors[0] }}</p>
-                    </ValidationProvider>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <v-btn
-                    data-test="submit-btn"
-                    type="submit"
-                    block
-                    dark
-                    color="#58A5A7"
-                    >Sign up</v-btn>
-                </v-col>
-            </v-row>
-            </v-container>
-        </v-form>
-    </ValidationObserver>
+        <v-col
+        class="d-flex justify-center"
+        >
+           <v-card 
+           hover
+           color="#9B5AA5"
+           lazy-validation
+           >
+           <v-card-title
+           class="white--text justify-center green lighten-1"
+           >
+          
+           <span class="title">
+            <v-icon dark left>mdi-account</v-icon>
+            Register
+            </span>
+           
+           </v-card-title>
+           <v-card-text
+           class="pa-10"
+           >
+               <v-form
+               ref="form"
+               lazy-validation
+               >
+                   <v-text-field
+                   v-model="username"
+                   label="Username"
+                   prepend-icon="mdi-account"
+                   clearable
+                   outlined
+                   solo
+                   dense
+                   color="white"
+                   :rules="requiredRules"
+                   data-test="username"                   
+                   >
+                   </v-text-field>
+                   <v-text-field
+                   v-model="password"
+                   prepend-icon="mdi-lock"
+                   type="password"
+                   label="Password"
+                   clearable
+                   outlined
+                   solo
+                   dense
+                   color="white"
+                   :rules="requiredRules"
+                   data-test="password"             
+                   >
+                   </v-text-field>
+                   <v-text-field
+                   v-model="firstName"
+                   prepend-icon="mdi-format-letter-case"
+                   label="First Name"
+                   clearable
+                   outlined
+                   solo
+                   dense
+                   color="white"
+                   :rules="requiredRules" 
+                   data-test="first-name"
+                   >
+                   </v-text-field>
+                   <v-text-field
+                   v-model="lastName"
+                   prepend-icon="mdi-format-letter-case"
+                   label="Last Name"
+                   clearable
+                   outlined
+                   solo
+                   dense
+                   color="white"
+                   :rules="requiredRules"
+                   data-test="last-name" 
+                   >
+                   </v-text-field>
+                   <v-btn
+                   dark
+                   color="#71C373"
+                   @click="registerUser"
+                   data-test="submit-btn"
+                   >Sign Up</v-btn>
+               </v-form>
+           </v-card-text>
+
+           </v-card>
+        </v-col>
+        </v-row>
+    </v-container>
 </template>
 
-
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+
 
 export default {
     name: 'RegistrationForm',
     components: {
-        ValidationProvider,
-        ValidationObserver
+
     },
     data: () => ({
         username: '',
@@ -121,19 +112,23 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
+        requiredRules: [
+            v => !!v || 'Please enter a value'
+        ]
     }),
     methods: {
         async registerUser() {
-            const res = await this.$http.post('/users/', {
-                username: this.username,
-                password: this.password,
-                first_name: this.firstName,
-                last_name: this.lastName,
-                email: this.email
-            })
-            if (res.status == 201) {
-                // router push to the home page
-                this.$router.push({ path: '/'})
+                if (this.$refs.form.validate()) {
+                    const res = await this.$http.post('/users/', {
+                    username: this.username,
+                    password: this.password,
+                    first_name: this.firstName,
+                    last_name: this.lastName,
+                    email: this.email
+                })
+                if (res.status == 201) {
+                    this.$router.push({ path: '/'})
+                }
             }
         },
     }

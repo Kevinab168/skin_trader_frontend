@@ -1,79 +1,109 @@
 <template>
-    <ValidationObserver v-slot="{ handleSubmit }">
-        <v-form
-        @submit.prevent="handleSubmit()"
+    <v-container
+    fluid
+    fill-height
+    >
+        <v-row
         >
-            <v-container
-            fluid
-            >
-            <v-row
-            >
-                <v-col
-                >
-                <ValidationProvider rules="required" v-slot="{ errors }">
-                <v-text-field
-                v-model="username"
-                data-test="username"
-                flat
-                label="User Name"
-                filled
-                dense
-                clearable
-                ></v-text-field>
-                <p class="red--text" align="left">{{ errors[0] }}</p>
-                </ValidationProvider>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                        <v-text-field
-                        v-model="password"
-                        data-test="password"
-                        flat
-                        label="Password"
-                        type="password"
-                        filled
-                        dense
-                        clearable
-                        ></v-text-field>
-                        <p class="red--text" align="left">{{ errors[0] }}</p>
-                    </ValidationProvider>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <v-btn
-                    data-test="loginBtn"
-                    type="submit"
-                    block
-                    dark
-                    color="#A75A58"
-                    >Log In</v-btn>
-                </v-col>
-            </v-row>
-            </v-container>
-        </v-form>
-    </ValidationObserver>
+        <v-col
+        class="d-flex justify-center"
+        >
+           <v-card 
+           hover
+           color="#71C373"
+           shaped
+           >
+           <v-card-title
+           class="justify-center purple lighten-1"
+           >
+           <span class="title white--text">
+               <v-icon dark left>mdi-login</v-icon>
+               Login
+           </span>
+           </v-card-title>
+           <v-card-text
+           class="pa-10"
+           >
+               <v-form
+               ref="form"
+               lazy-validation
+               >
+                   <v-text-field
+                   v-model="username"
+                   label="Username"
+                   prepend-icon="mdi-account"
+                   clearable
+                   outlined
+                   solo
+                   dense
+                   color="white"
+                   required 
+                   :rules="requiredRules"
+                   data-test="username"                  
+                   >
+                   </v-text-field>
+                   <v-text-field
+                   v-model="password"
+                   prepend-icon="mdi-lock"
+                   type="password"
+                   label="Password"
+                   clearable
+                   outlined
+                   solo
+                   dense
+                   color="white"
+                   required
+                   :rules="requiredRules"
+                   data-test="password"
+                   >
+                   </v-text-field>
+                   <v-btn
+                   dark
+                   color="#9B5AA5"
+                   @click="loginUser"
+                   data-test="loginBtn"
+                   >Login</v-btn>
+               </v-form>
+           </v-card-text>
+
+           </v-card>
+        </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
 export default {
     name: 'LoginForm',
     components: {
-        ValidationProvider,
-        ValidationObserver
     },
     data: () => ({
         username: '',
         password: '',
+        requiredRules: [
+            v => !!v || 'Please enter a value',
+        ],
     }),
     methods: {
-        loginUser() {
-            // This method will log the user and set the information in Vuex. 
+        async loginUser() {
+            if (this.$refs.form.validate()) {
+                const res = await this.$http.post('/token-auth/', {
+                    username: this.username,
+                    password: this.password,
+                })
+                if (res.status == 200) {
+                    const token = res.data.token
+                    const username = this.username
+                    localStorage.setItem('credentials', JSON.stringify({
+                        'username': username,
+                        'token': token,
+                    }))
+                    this.$store.commit('setUser', {username, token})
+                    this.$router.push('/')
+                }
+            }
         }
     }
 }
