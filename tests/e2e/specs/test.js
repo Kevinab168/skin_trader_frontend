@@ -1,5 +1,26 @@
 // https://docs.cypress.io/api/introduction/api.html
 
+describe('Home Page', () => {
+  it('Goes to the Homepage', () => {
+    cy.visit('/welcome')
+    cy.get('[data-test="welcome-message"]').should('exist')
+    cy.get('[data-test="welcome-message-subtitle"]').should('exist')
+    cy.get('[data-test="welcome-signup"]').should('exist')
+    cy.get('[data-test="welcome-message-image"]').should('exist')
+    cy.get('[data-test="service-description"]').should('exist')
+    cy.get('[data-test="license-information"]').should('exist')
+    cy.get('[data-test="contact-information"]').should('exist')
+    cy.get('[data-test="highlighted-feature"]').should('exist')
+  }), 
+
+  it('Goes to the HomePage and clicks the signup button', () => {
+    cy.visit('/welcome')
+    cy.get('[data-test="welcome-signup"]').click()
+    cy.url().should('eq', 'http://localhost:8080/accounts/signup')
+  })
+})
+
+
 
 describe('Registration Page', () => {
   it('Visits the registration page', () => {

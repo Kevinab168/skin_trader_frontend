@@ -1,31 +1,80 @@
 <template>
   <v-app>
     <div id="app">
-      <div id="nav">
-        <router-link 
-        to="/"
-        data-test="home-link"
-        >Home</router-link> |
-        <router-link 
-        v-if="username" 
-        to="/about" data-test="userLoginStatus"
-        >{{ username }}</router-link> | 
-        <router-link 
-        v-if="!username" 
-        to="/accounts/signup"
-        data-test="register-link"
-        >Register</router-link> |
-        <router-link 
-        v-if="!username" 
-        to="/accounts/login"
-        data-test="login-link" 
-        >Login</router-link> | 
-        <router-link 
-        v-if="username" 
-        to="/accounts/logout" data-test="logout" 
-        >Logout</router-link>
-      </div>
-      <router-view/>
+
+       <v-card class="overflow-hidden">
+        <v-app-bar
+          absolute
+          color="white"
+          elevate-on-scroll
+          scroll-target="#scrolling-techniques-7"
+        >
+          <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+          <v-toolbar-title>Xchange Place</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <router-link
+            to="/"
+            data-test="home-link"
+          > <v-btn icon>
+              <v-icon>mdi-home</v-icon>
+            </v-btn>
+          </router-link>
+         
+         <router-link
+        
+          to='/about'
+          data-test="userLoginStatus"
+         >
+          <v-btn icon>
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+         </router-link>
+
+         <router-link
+          v-if="!username"
+          to="/accounts/signup"
+          data-test="register-link"
+         >
+           <v-btn icon>
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
+         </router-link>
+
+         <router-link
+          v-if="!username"
+          to="/accounts/login"
+          data-test="login-link"
+         >
+          <v-btn icon>
+            <v-icon>mdi-login</v-icon>
+          </v-btn>
+         </router-link>
+
+         <router-link
+          v-if="username"
+          to="/accounts/logout"
+          data-test="logout"
+         >
+          <v-btn icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-btn>
+         </router-link>
+        </v-app-bar>
+        <v-sheet
+          id="scrolling-techniques-7"
+          class="overflow-y-auto"
+          max-height="600"
+        >
+          <v-container style="height: 70px;">
+          </v-container>
+        </v-sheet>
+      </v-card>
+    </div>
+    <div class="content">
+        <router-view/>
     </div>
   </v-app>
 </template>
@@ -34,8 +83,14 @@
 import { mapState } from 'vuex'
 export default {
   name: 'Root',
+  components: {
+    
+  },
   computed: {
     ...mapState(['username'])
+  },
+  methods: {
+
   },
   created: function() {
     const credentials = JSON.parse(localStorage.getItem('credentials'))
@@ -68,5 +123,9 @@ export default {
       color: #42b983;
     }
   }
+}
+
+a {
+  text-decoration: none;
 }
 </style>
