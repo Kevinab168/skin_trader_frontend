@@ -11,7 +11,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Pull and Run Skin Trader Backend
         run: | 
-            docker pull docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main          docker run -p 8000:8000 skin_trader_backend
+            docker pull docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main          
+            docker run -p 8000:8000 skin_trader_backend
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
