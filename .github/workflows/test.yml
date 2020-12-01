@@ -10,7 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Pull and Run Skin Trader Backend
+        env:
+
         run: | 
+            docker login https://docker.pkg.github.com -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
             docker pull docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main          
             docker run -p 8000:8000 skin_trader_backend
         with:
