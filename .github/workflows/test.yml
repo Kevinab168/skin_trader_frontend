@@ -9,18 +9,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Pull and Run Skin Trader Backend
+      - name: cypress-testing
         run: | 
             docker login https://docker.pkg.github.com -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
-            docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main          
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          browser: chrome
-          headless: true
+            docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main
+            npm install
+            npm run test:e2e          
   
   push_to_registry:
-    needs: cypress-run
+    needs: cypress-testing
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     steps:
