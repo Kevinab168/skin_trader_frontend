@@ -1,7 +1,7 @@
 // https://docs.cypress.io/api/introduction/api.html
 
 describe('Home Page', () => {
-  it('Goes to the Homepage', () => {
+  it('Goes to the Welcome', () => {
     cy.visit('/welcome')
     cy.get('[data-test="welcome-message"]').should('exist')
     cy.get('[data-test="welcome-message-subtitle"]').should('exist')
