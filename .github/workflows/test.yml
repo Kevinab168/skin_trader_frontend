@@ -16,9 +16,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: npm run serve 
-          browser: chrome
           config-file: cypress.json
+
   
   push_to_registry:
     needs: cypress-run
