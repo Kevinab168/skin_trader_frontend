@@ -11,12 +11,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Login to Docker 
-        run: docker login https://docker.pkg.github.com -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker login https://docker.pkg.github.com -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+          docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main
+          start: npm run serve 
+          wait-on: http://localhost:8080
   
   push_to_registry:
     needs: cypress-run
