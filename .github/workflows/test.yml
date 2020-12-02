@@ -8,13 +8,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: cypress-testing
-        run: | 
-            docker login https://docker.pkg.github.com -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
-            docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main
-            npm install
-            npm run test:e2e --headless     
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main
   
   push_to_registry:
     needs: cypress-run
