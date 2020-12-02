@@ -16,9 +16,9 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          start: npm run serve 
           config-file: cypress.json
-
-  
+          
   push_to_registry:
     needs: cypress-run
     name: Push Docker image to GitHub Packages
