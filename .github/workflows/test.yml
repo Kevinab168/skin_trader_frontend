@@ -10,12 +10,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Login to Docker 
+        run: docker login -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: |
-          docker login https://docker.pkg.github.com -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
-          docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main
+          start: docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main
   
   push_to_registry:
     needs: cypress-run
