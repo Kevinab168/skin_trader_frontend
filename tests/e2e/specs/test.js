@@ -1,6 +1,8 @@
 // https://docs.cypress.io/api/introduction/api.html
 
 
+cy.registerTestUser()
+
 
 describe('Home Page', () => {
   it('Goes to the Welcome', () => {
@@ -45,7 +47,6 @@ describe('Login Page', () => {
   })
 
   it('Logs in the user', () => {
-    cy.registerTestUser()
     cy.visit('/accounts/login')
     cy.get('[data-test="username"]').type('test')
     cy.get('[data-test="password"]').type('test')
@@ -57,7 +58,6 @@ describe('Login Page', () => {
 
 describe('Logout', () => {
   it('Logs out the User', () => {
-    cy.registerTestUser()
     cy.login()
     cy.visit('/')
     cy.get('[data-test="logout"]').click()
@@ -74,7 +74,6 @@ describe('Navigation', () => {
   })
 
   it ('Checks the existence of links to registered user', () => {
-    cy.registerTestUser()
     cy.login()
     cy.visit('/')
     cy.get('[data-test="register-link"]').should('not.exist')
