@@ -1,7 +1,12 @@
 // https://docs.cypress.io/api/introduction/api.html
 
 
-cy.registerTestUser()
+
+describe('Register a User to use for testing', () => {
+  it('Creates a sample user for subsequent tests', () => {
+    cy.registerTestUser()
+  })
+})
 
 
 describe('Home Page', () => {
