@@ -41,3 +41,14 @@ Cypress.Commands.add('login', () => {
     })
   
   })
+
+  Cypress.Commands.add('registerTestUser', () => {
+      cy.request({
+          method: 'POST',
+          url: 'http://localhost:8000/api/users',
+          body: {
+              username: 'test',
+              password: 'test',
+          }
+      })
+  })
