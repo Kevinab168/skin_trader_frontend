@@ -6,7 +6,6 @@ on: push
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -14,13 +13,12 @@ jobs:
         run: |
           docker login https://docker.pkg.github.com -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
           docker run -d -p 8000:8000 docker.pkg.github.com/kevinab168/skin_trader/skin_trader_backend:main
-
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           start: npm run serve 
           browser: chrome
-          config: cypress.json
+          config-file: cypress.json
   
   push_to_registry:
     needs: cypress-run
