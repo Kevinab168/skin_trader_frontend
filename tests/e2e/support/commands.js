@@ -27,7 +27,7 @@
 Cypress.Commands.add('login', () => { 
     cy.request({
       method: 'POST',
-      url: 'http://localhost:8000/api/token-auth/',
+      url: 'http://localhost:80/api/token-auth/',
       body: {
           username: 'test',
           password: 'test',
@@ -45,7 +45,7 @@ Cypress.Commands.add('login', () => {
   Cypress.Commands.add('registerTestUser', () => {
       cy.request({
           method: 'POST',
-          url: 'http://localhost:8000/api/users/',
+          url: 'http://localhost:80/api/users/',
           body: {
               username: 'test',
               password: 'test',
