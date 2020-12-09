@@ -1,5 +1,7 @@
 // https://docs.cypress.io/api/introduction/api.html
 
+const { describe } = require("mocha")
+
 
 
 describe('Register a User to use for testing', () => {
@@ -85,5 +87,16 @@ describe('Navigation', () => {
     cy.get('[data-test="login-link"]').should('not.exist')
     cy.get('[data-test="logout"]').should('exist')
     cy.get('[data-test="userLoginStatus"]').should('exist')
+  })
+})
+
+
+describe('About', () => {
+  it('Visits About Page and checks elements visible', () => {
+    cy.visit('/about')
+    cy.get('[data-test="about-header"]').should('exist').should('have.text', 'Xchange Place')
+    cy.get('[data-test="about-description"]').should('exist')
+    cy.get('[data-test="about-images"]').should('exist')
+    cy.get('[data-test="about-history"]').should('exist').should('have.text', 'History')
   })
 })
