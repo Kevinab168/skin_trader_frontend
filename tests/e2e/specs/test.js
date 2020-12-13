@@ -80,6 +80,14 @@ describe('Navigation', () => {
     cy.get('[data-test="login-link"]').should('exist')
   })
 
+  it('Checks the Navigation Drawer', () => {
+    cy.visit('/')
+    cy.get('[data-test="navdrawer-expand"]').click()
+    cy.get('[data-test="navdrawer-home-link"]').should('exist')
+    cy.get('[data-test="navdrawer-search-link"]').should('exist')
+    cy.get('[data-test="navdrawer-shop-link"]').should('exist')
+  })
+
   it ('Checks the existence of links to registered user', () => {
     cy.login()
     cy.visit('/')

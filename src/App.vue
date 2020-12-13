@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <div id="app">
-
        <v-card class="overflow-hidden">
         <v-app-bar
           absolute
@@ -9,8 +8,10 @@
           elevate-on-scroll
           scroll-target="#scrolling-techniques-7"
         >
-          <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
+          <v-app-bar-nav-icon
+            data-test="navdrawer-expand"
+            @click.stop="drawer = !drawer"
+          ></v-app-bar-nav-icon>
           <v-toolbar-title>Xchange Place</v-toolbar-title>
 
           <v-spacer></v-spacer>
@@ -74,6 +75,30 @@
       </v-card>
     </div>
     <div class="content">
+      <v-navigation-drawer
+        v-model="drawer"
+        absolute
+        temporary
+        >
+
+          <v-list dense>
+            <v-list-item
+              v-for="item in items"
+              :key="item.title"
+              :data-test="item.dataTest"
+              :to="{name: item.title}"
+              link
+            >
+                <v-list-item-icon>
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-navigation-drawer>
         <router-view/>
     </div>
   </v-app>
@@ -83,6 +108,14 @@
 import { mapState } from 'vuex'
 export default {
   name: 'Root',
+  data: () => ({
+    drawer: null,
+    items: [
+      { title: 'Home', icon: 'mdi-home', dataTest: 'navdrawer-home-link' },
+      { title: 'Search', icon: 'mdi-magnify', dataTest: 'navdrawer-search-link' },
+      { title: 'Shop', icon: 'mdi-shopping-outline', dataTest: 'navdrawer-shop-link'}
+    ]
+  }),
   components: {
     
   },
@@ -125,7 +158,8 @@ export default {
   }
 }
 
-a {
+a { 
   text-decoration: none;
 }
+
 </style>
